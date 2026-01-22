@@ -7,7 +7,8 @@ from rdflib import Graph
 from kieker_analysis.queries.queries import Query, get_query
 import pandas as pd
 
-kieker_client = SPARQLWrapper("http://localhost:3030/kieker/query")
+# kieker_client = SPARQLWrapper("http://localhost:3030/kieker/query")
+kieker_client = SPARQLWrapper("http://localhost:7200/repositories/kieker")
 
 def run(query:Query|str, client:SPARQLWrapper=kieker_client, result_format=JSON) -> bytes | str | dict :
     client = client
