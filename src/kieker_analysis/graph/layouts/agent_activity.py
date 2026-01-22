@@ -1,13 +1,12 @@
 import math
 
+import networkx as nx
 import rdflib
 
-from kieker_analysis.graph.layouts.util import build_id_to_node, build_adjacency, get_nx_adjacency
-import networkx as nx
+from kieker_analysis.graph.layouts.util import get_nx_adjacency
 
-
-def layout_agent_events(nxg:nx.DiGraph,
-                        agent_id:str,
+def layout_agent_events(nxg: nx.DiGraph,
+                        agent_id: str,
                         r_event_types: float = 200.0,
                         ):
     """
@@ -16,7 +15,7 @@ def layout_agent_events(nxg:nx.DiGraph,
     # group nodes by attributes ---
     main_agent_id = None
     agents = [n_id for n_id, data in nxg.nodes(data=True)
-                    if data.get("rdf_type_str") == "http://www.w3.org/ns/prov#Agent"]
+              if data.get("rdf_type_str") == "http://www.w3.org/ns/prov#Agent"]
     secondary_agents = []
     if not agents:
         raise ValueError("No agent node found with rdf_type_str=prov#Agent")
@@ -27,8 +26,8 @@ def layout_agent_events(nxg:nx.DiGraph,
             main_agent_id = agent
         elif agent == rdflib.term.URIRef("https://www.w3.org/People/Berners-Lee/card.rdf"):
             main_agent_id = agent
-        else: secondary_agents.append(agent)
-
+        else:
+            secondary_agents.append(agent)
 
     if not main_agent_id:
         raise ValueError("the main agent was not found in the graph")
@@ -48,7 +47,7 @@ def layout_agent_events(nxg:nx.DiGraph,
     inner_node_ids = {n_id for n_id, data in nxg.nodes(data=True) if data.get("format") == "inner"}
 
     # collect inner event nodes that are not adjacent to the main agent - these are events by secondary agents
-    creation_nodes= {n_id for n_id in inner_node_ids if n_id not in adjacency[main_agent_id]}
+    creation_nodes = {n_id for n_id in inner_node_ids if n_id not in adjacency[main_agent_id]}
 
     # place ALL event types on a circle around the main agent,
     # but push the creation event type further out along its angle
@@ -68,7 +67,7 @@ def layout_agent_events(nxg:nx.DiGraph,
         nxg.nodes[event_type_id]["pos"] = (event_x, event_y)
 
     # put inner (grey) nodes between agent and each event type ---
-    assigned_events = set()  #  aviod moving same node multiple times
+    assigned_events = set()  # aviod moving same node multiple times
 
     for event_type_id in event_type_ids:
         event_type_x, event_type_y = nxg.nodes[event_type_id]["pos"]
@@ -135,6 +134,5 @@ def layout_agent_events(nxg:nx.DiGraph,
 
     # ensure every node has a position (fallback for oddments) ---
     for node_id in nodes:
-       if "pos" not in nxg.nodes[node_id]:
-           nxg.nodes[node_id]["pos"] = (main_agent_x+14, main_agent_y+16)
-
+        if "pos" not in nxg.nodes[node_id]:
+            nxg.nodes[node_id]["pos"] = (main_agent_x + 14, main_agent_y + 16)
