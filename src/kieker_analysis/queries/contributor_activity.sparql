@@ -1,0 +1,16 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX github2prov: <http://purl.org/github2prov/>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT ?agent (count(?issue) as ?issues) WHERE {
+  ?agent a prov:Agent.
+  ?activity a prov:Activity;
+    prov:wasAssociatedWith ?agent.
+
+  ?issue a github2prov:issue.
+  ?iv prov:specializationOf ?issue;
+    prov:wasGeneratedBy ?activity
+
+
+} groupby(?agent)

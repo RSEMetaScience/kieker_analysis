@@ -1,0 +1,15 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX github2prov: <http://purl.org/github2prov/>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+
+SELECT ?issue ?event_type (COUNT(?issue_event) AS ?count)
+WHERE {
+  ?issue_version prov:wasGeneratedBy ?issue_event ;
+                 prov:specializationOf ?issue .
+
+  ?issue_event a ?event_type .
+}
+GROUP BY ?issue ?event_type
+ORDER BY ?issue ?event_type

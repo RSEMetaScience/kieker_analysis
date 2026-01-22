@@ -1,0 +1,43 @@
+PREFIX pulls_uri: <https://github.com/kieker-monitoring/kieker/pull/>
+PREFIX aprov: <http://purl.org/a-proc#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX github2prov: <http://purl.org/github2prov/>
+PREFIX github: <https://github.com/>
+
+CONSTRUCT {
+    ?versioningEvent prov:wasAssociatedWith ?agent ;
+    a ?versionEventType .
+
+    ?creation prov:wasAssociatedWith ?creator ;
+     a ?creationEventType .
+   
+    ?creator a prov:Agent.
+     ?agent a prov:Agent.
+     ?versionEventType  a prov:Activity .
+     ?creationEventType a prov:Activity .
+}
+
+WHERE {
+
+    values ?agent{ {~{VALUES}~} }
+  #  values ?creator{ {~{VALUES}~} }
+
+	?entityVersion prov:specializationOf ?mainEntity ;
+    	prov:wasGeneratedBy ?versioningEvent .
+   	
+    ?mainEntity prov:wasGeneratedBy ?creation ;
+    	prov:wasAttributedTo ?creator .
+
+    ?versioningEvent prov:wasAssociatedWith ?agent ;
+    	   a ?versionEventType 
+    	
+        filter(?versionEventType != prov:Activity )
+
+
+		?creation prov:wasAssociatedWith ?creator ;
+    	   a ?creationEventType .
+    	filter(?creationEventType != prov:Activity)
+
+}

@@ -1,0 +1,50 @@
+# --- GraphDB runtime (DO NOT COMMIT) ---
+graphdb/home/
+graphdb/import/
+graphdb/**/*.log
+
+# --- Jupyter ---
+.ipynb_checkpoints/
+
+# --- Poetry / Python ---
+.venv/
+__pycache__/
+*.py[cod]
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+dist/
+build/
+*.egg-info/
+
+# --- OS / IDE ---
+.DS_Store
+.idea/
+.vscode/
+
+# --- extra pycharm gubbins ---
+# --- JetBrains / PyCharm ---
+.idea/
+*.iml
+*.ipr
+*.iws
+.idea_modules/
+# JetBrains “shelf” + local history (sometimes appears)
+.idea/shelf/
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/aws.xml
+.idea/**/contentModel.xml
+.idea/**/dataSources/
+.idea/**/dataSources.ids
+.idea/**/dataSources.local.xml
+.idea/**/sqlDataSources.xml
+.idea/**/dynamic.xml
+.idea/**/uiDesigner.xml
+.idea/**/dbnavigator.xml
+

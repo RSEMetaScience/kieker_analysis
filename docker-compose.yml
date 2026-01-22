@@ -1,0 +1,34 @@
+services:
+  graphdb:
+    image: ontotext/graphdb:10.7.0
+    container_name: kieker_gdb
+    ports:
+      - "7200:7200"
+    volumes:
+      - ./graphdb/home:/opt/graphdb/home
+      - ./graphdb/import:/opt/graphdb/import
+    environment:
+      - GRAPHDB_HOME=/opt/graphdb/home
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:7200/rest/repositories >/dev/null || exit 1"]
+      interval: 2s
+      timeout: 2s
+      retries: 60
+
+  graphdb-init:
+    image: curlimages/curl:8.6.0
+    depends_on:
+      graphdb:
+        condition: service_started
+    environment:
+      - GRAPHDB_URL=http://graphdb:7200
+      - REPO_ID=kieker
+      - CONFIG_PATH=/data/config.ttl
+      - DATA_PATH=/data/kieker.ttl
+    volumes:
+      - ./bin/gdb_init.sh:/init/gdb_init.sh:ro
+      - ./data:/data:ro
+      - ./graphdb/home:/opt/graphdb/home
+    entrypoint: ["/bin/sh", "/init/gdb_init.sh"]
+    restart: "no"

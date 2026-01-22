@@ -1,0 +1,26 @@
+[project]
+name = "Kieker-analysis"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "bernardroper",email = "b.roper@soton.ac.uk"}
+]
+readme = "README.md"
+requires-python = ">=3.12,<3.14.1 || >3.14.1"
+dependencies = [
+    "sparqlwrapper (>=2.0.0,<3.0.0)",
+    "jupyterlab (>=4.5.1,<5.0.0)",
+    "pandas (>=2.3.3,<3.0.0)",
+    "networkx (>=3.6.1,<4.0.0)",
+    "jinja2 (>=3.1.6,<4.0.0)",
+    "ipycytoscape (>=1.3.3,<2.0.0)",
+    "plotly (>=6.5.2,<7.0.0)"
+]
+
+[tool.poetry]
+packages = [{include = "kieker_analysis", from = "src"}]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

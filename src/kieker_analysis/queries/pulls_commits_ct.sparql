@@ -1,0 +1,20 @@
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX pulls_uri: <https://github.com/kieker-monitoring/kieker/pull/>
+PREFIX aprov: <http://purl.org/a-proc#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX github2prov: <http://purl.org/github2prov/>
+PREFIX github: <https://github.com/>
+
+select ?agent (count (distinct ?pull) as ?pulls)
+		(count (distinct ?comment) as ?comments)
+where{
+    
+    
+    ?comment prov:wasAssociatedWith ?agent;
+ 		 a github2prov:comment.
+    ?pull a github2prov:pull;
+    prov:wasAttributedTo ?agent.
+
+}group by ?agent

@@ -1,0 +1,41 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX github2prov: <http://purl.org/github2prov/>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+
+construct {
+						
+
+					?issue ?p ?o.
+					#everything directly attached to the main issue
+  					?s ?p1 ?issue.
+  					?s a ?t. #subject types
+  					?o a ?tt. #object types
+
+					?s ?pp  ?oo. #peripheral attachments
+					?oo a ?ttt.
+					?s_assoc prov:wasAssociatedWith ?ag.
+					?ag a prov:Agent.
+                    ?create prov:wasAssociatedWith ?ag1
+
+					}
+
+where {
+  values ?issue{ {~{VALUES}~} }
+	
+	?issue ?p ?o.
+  ?s ?p1 ?issue.
+  ?s a ?t.
+  ?o a ?tt.
+
+  ?s ?pp  ?oo.
+  ?oo a ?ttt.
+  ?s ?pp ?s_assoc.
+  	?s_assoc prov:wasAssociatedWith ?ag.
+  ?issue prov:wasGeneratedBy ?create.
+  ?create prov:wasAssociatedWith ?ag1
+
+
+	
+}
