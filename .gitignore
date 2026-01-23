@@ -6,6 +6,11 @@ graphdb/**/*.log
 # --- Jupyter ---
 .ipynb_checkpoints/
 
+# -- Graphics --
+*.png
+*.gif
+*.jpeg
+
 # --- Poetry / Python ---
 .venv/
 __pycache__/
