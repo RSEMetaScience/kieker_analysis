@@ -9,11 +9,11 @@ You will also need Docker
 # Instructions
 ## first time setup or rebuild
 - clone the repo  
-- open a terminal in the repo root
-run ```./bin/run.sh --build```  
+- open a terminal in the repo root  
+- run ```./bin/run.sh --build```  
 ## normal usage
-- open a terminal in the repo root
-run ```./bin/run.sh```  
+- open a terminal in the repo root  
+- run ```./bin/run.sh```  
 ## notes
 - The jupyterlab server is available at localhost:8888
 - The GraphDB instance will be available at localhost:3030
