@@ -3,7 +3,7 @@ Jupyter notebook project analysing PROV data captured using git2prov.
 
 # Requirements
 Poetry is used to manage dependencies. 
-follow these [instructions](https://python-poetry.org/docs/#installation) to install Poetry.
+follow these [instructions](https://python-poetry.org/docs/#installation) to install Poetry.  
 You will also need Docker
 
 # Instructions
