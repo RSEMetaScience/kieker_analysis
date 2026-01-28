@@ -1,0 +1,23 @@
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX github2prov: <http://purl.org/github2prov/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX or: <http://openresearch.org/vocab/>
+PREFIX pr: <http://purl.org/ontology/prv/core#>
+PREFIX pro: <http://purl.org/hpi/patchr#>
+PREFIX aprov: <http://purl.org/a-proc#>
+PREFIX type: <http://info.deepcarbon.net/schema/type#>
+
+SELECT ?agent (count(distinct ?activity) as ?count)
+WHERE {
+{
+    ?i a github2prov:pull.
+    ?iv prov:specializationOf ?i.
+    ?iv prov:wasGeneratedBy ?e.
+    ?e rdf:type github2prov:pull.
+    ?e prov:wasAssociatedWith ?agent.
+    ?activity prov:wasAssociatedWith ?agent.
+    ?activity rdf:type github2prov:closed.  
+ }
+}
+Group By ?agent

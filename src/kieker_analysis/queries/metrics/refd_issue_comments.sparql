@@ -1,0 +1,18 @@
+referred_issue_comments = """
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX github2prov: <http://purl.org/github2prov/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT ?agent (count(distinct ?e) as ?count)
+WHERE {
+ {
+    ?e prov:wasAssociatedWith ?agent.
+    ?e rdf:type github2prov:referenced.
+    ?i a github2prov:issue.
+    ?iv prov:specializationOf ?i.
+    ?iv prov:wasGeneratedBy ?e.
+  FILTER NOT EXISTS { ?i rdf:type github2prov:pull.}
+  }
+}
+Group By ?agent
