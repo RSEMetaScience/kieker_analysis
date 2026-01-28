@@ -14,7 +14,7 @@ class Query(Enum):
     counts = "counts.sparql"
     pull_reqs_opened = "metrics/pull_reqs_opened.sparql"
     issues_opened = "metrics/issues_opened.sparql"
-    pullrequest_comments = "metrics/pr_comments.sparql"
+    pr_comments = "metrics/pr_comments.sparql"
     closed_pull="metrics/closed_pull.sparql"
     closed_issue="metrics/closed_issue.sparql"
     labels_pull = "metrics/labels_pull.sparql"
@@ -24,6 +24,7 @@ class Query(Enum):
     mention_issue_comments = "metrics/mention_issue_comments.sparql"
     commits_started = "metrics/commits_started.sparql"
     issue_comments = "metrics/issue_comments.sparql"
+    labels_issue = "metrics/labels_issue.sparql"
 
 
 def _get_query_path(query:Query):
