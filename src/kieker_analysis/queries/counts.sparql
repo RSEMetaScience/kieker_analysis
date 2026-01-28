@@ -1,0 +1,27 @@
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX github2prov: <http://purl.org/github2prov/>
+
+SELECT ?agents ?pullreqs ?issues ?commits ?comments ?reviews ?r_reqs
+WHERE {
+  { SELECT (COUNT(DISTINCT ?ag) AS ?agents)
+    WHERE { ?ag a prov:Agent . }
+  }
+  { SELECT (COUNT(DISTINCT ?pr) AS ?pullreqs)
+    WHERE { ?pr a github2prov:pull . }
+  }
+  { SELECT (COUNT(DISTINCT ?issue) AS ?issues)
+    WHERE { ?issue a github2prov:issue . }
+  }
+  { SELECT (COUNT(DISTINCT ?commit) AS ?commits)
+    WHERE { ?commit a github2prov:commit . }
+  }
+  { SELECT (COUNT(DISTINCT ?comment) AS ?comments)
+    WHERE { ?comment a github2prov:comment . }
+  }
+  { SELECT (COUNT(DISTINCT ?review) AS ?reviews)
+    WHERE { ?review a github2prov:pull_request_review . }
+  }
+  { SELECT (COUNT(DISTINCT ?r_req) AS ?r_reqs)
+    WHERE { ?r_req a github2prov:review_requested . }
+  }
+}
