@@ -32,4 +32,4 @@ WHERE {
         filter(?versionEventType != prov:Activity )
         FILTER( ?t >= ?start && ?t < ?end )
 }
-groupby (?agent)
+group by (?agent)

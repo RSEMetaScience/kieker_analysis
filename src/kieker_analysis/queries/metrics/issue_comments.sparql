@@ -15,3 +15,4 @@ WHERE {
     ?e prov:wasAssociatedWith ?agent.
 }
 }
+Group By ?agent
