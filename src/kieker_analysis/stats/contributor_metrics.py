@@ -88,4 +88,25 @@ def build_weights()->DataFrame:
     weights_data = [x[1:] for x in transpose[1:-1]]
     return pd.DataFrame(weights_data, columns=columns, index=[x[0] for x in transpose][1:-1])
 
+def get_active_users(metrics:dict)->set[str]:
+    users = set()
+    for analysis in metrics.values():
+        for u in analysis.keys():
+            users.add(u)
+    return users
 
+
+
+def get_user_activity(metrics:dict)->pd.DataFrame:
+    users = get_active_users(metrics)
+    columns = sorted(metrics.keys())
+    data = []
+    short_users = []
+    for u in users:
+        d = [metrics[x].get(u, 0) for x in columns]
+        data.append(d)
+        un = u.replace("https://api.github.com/users/", "")
+        short_users.append(un)
+
+    user_activity = pd.DataFrame(data, columns=columns, index=short_users)
+    return user_activity
