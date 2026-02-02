@@ -25,6 +25,8 @@ class Query(Enum):
     commits_started = "metrics/commits_started.sparql"
     issue_comments = "metrics/issue_comments.sparql"
     labels_issue = "metrics/labels_issue.sparql"
+    kieker_event_count = "kieker_event_count.sparql"
+    all_agent_activity = "all_agent_activity.sparql"
 
 
 def _get_query_path(query:Query):
@@ -46,7 +48,7 @@ def get_parameterised_query(query:Query|str, args:list[tuple]|list[str], place_h
     :type place_holder: str
     """
     query=get_query(query) if isinstance(query, Query) else query
-    value_items = ''.join(f"{item}" for item in args)
+    value_items = ','.join(f"{item}" for item in args)
     if place_holder not in query:
         raise ValueError("query does not accept arguments")
     for item in args:
