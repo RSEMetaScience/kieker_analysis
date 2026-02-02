@@ -1,9 +1,9 @@
 import pandas as pd
 from SPARQLWrapper import JSON
-from pandas import DataFrame
 
-from kieker_analysis.queries.queries import Query
-from kieker_analysis.sparql.client import kieker_client, run
+
+from kieker_analysis.queries.queries import Query, get_parameterised_query, get_query
+from kieker_analysis.sparql.client import kieker_client, run, run_dataframe
 
 query_strings = dict(
 commits_started=Query.commits_started,
@@ -66,7 +66,7 @@ def metrics_all()->dict:
         r[i] = t[1]
     return r
 
-def build_weights()->DataFrame:
+def build_weights()->pd.DataFrame:
     """use the factor loadings table from Cheng and Guo, 'Activity-based analysis of open source software contributors:
     Roles and dynamics' (10.1109/CHASE.2019.00011) to provide the weightings we need to compute the factors from that
     paper using our results """
@@ -95,7 +95,16 @@ def get_active_users(metrics:dict)->set[str]:
             users.add(u)
     return users
 
-
+def get_kieker_event_count(users_to_drop:list[str]|None=None)->pd.DataFrame:
+    argz=[]
+    if users_to_drop:
+        arg = ''",".join(f"{v}" for v in users_to_drop)
+        argz.append(arg)
+    q_string=get_query(Query.kieker_event_count)
+    q=get_parameterised_query(q_string,argz)
+    df=run_dataframe(q)
+    df = df[df['event_type']!="http://www.w3.org/ns/prov#Activity"]
+    return df
 
 def get_user_activity(metrics:dict)->pd.DataFrame:
     users = get_active_users(metrics)
@@ -110,3 +119,22 @@ def get_user_activity(metrics:dict)->pd.DataFrame:
 
     user_activity = pd.DataFrame(data, columns=columns, index=short_users)
     return user_activity
+
+def get_all_user_metrics(users_to_drop:list[str]|None=None):
+    argz = []
+    if users_to_drop:
+        arg = ''",".join(f"{v}" for v in users_to_drop)
+        argz.append(arg)
+    q_string = get_query(Query.all_agent_activity)
+    q = get_parameterised_query(q_string, argz)
+    df = run_dataframe(q)
+    df_wide= (
+            df.pivot_table(index="agent",
+                            columns="event_type_short",
+                            values="events",
+                            aggfunc="sum",
+                            fill_value=0).reset_index()
+)
+
+    df_wide.drop(columns=["Activity"], inplace=True)
+    return df_wide

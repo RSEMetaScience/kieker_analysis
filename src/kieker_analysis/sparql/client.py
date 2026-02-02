@@ -1,7 +1,7 @@
 from SPARQLWrapper import SPARQLWrapper, JSON, CSV, TURTLE
 from io import StringIO
 
-from pandas.core.interchange.dataframe_protocol import DataFrame
+
 from rdflib import Graph
 
 from kieker_analysis.queries.queries import Query, get_query
@@ -12,12 +12,12 @@ kieker_client = SPARQLWrapper("http://localhost:7200/repositories/kieker")
 
 def run(query:Query|str, client:SPARQLWrapper=kieker_client, result_format=JSON) -> bytes | str | dict :
     client = client
-    query_string = get_query(query)
+    query_string = get_query(query) if isinstance(query, Query) else query
     client.setQuery(query_string)
     client.setReturnFormat(result_format)
     return client.query().convert()
 
-def run_dataframe(query:Query|str, client:SPARQLWrapper=kieker_client)->DataFrame:
+def run_dataframe(query:Query|str, client:SPARQLWrapper=kieker_client)->pd.DataFrame:
     """run a select query and put the results in a dataframe"""
     result=run(query=query, client=client, result_format=CSV).decode('utf-8')
     df = pd.read_csv(StringIO(result))
