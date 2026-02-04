@@ -1,0 +1,17 @@
+PREFIX users: <https://github.com/>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX github2prov: <http://purl.org/github2prov/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT ?event_type (count(?event_type  ) as ?events)(count (distinct ?agent  ) as ?agents)
+ WHERE
+  { # pull quests are also of type github2prov:issue
+    ?issue a github2prov:issue.
+    ?issue_version prov:specializationOf ?issue.
+    ?issue_version prov:wasGeneratedBy ?event.
+    ?event rdf:type ?event_type  .
+    ?event prov:wasAssociatedWith ?agent .
+    filter(?agent not in ({~{VALUES}~}))
+
+  } group by ?event_type  

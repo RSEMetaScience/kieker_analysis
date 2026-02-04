@@ -1,0 +1,18 @@
+PREFIX users: <https://github.com/>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX github2prov: <http://purl.org/github2prov/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT ?agent ?event_type_short (COUNT(?event) AS ?events)
+WHERE {
+  ?issue a github2prov:issue .
+  ?issue_version prov:specializationOf ?issue .
+  ?issue_version prov:wasGeneratedBy ?event .
+  ?event rdf:type ?event_type .
+  ?event prov:wasAssociatedWith ?agent .
+
+    BIND(REPLACE(STR(?event_type), "^.*[/#]", "") AS ?event_type_short)
+    FILTER(?agent NOT IN ({~{VALUES}~}))
+}
+GROUP BY ?agent ?event_type_short
+ORDER BY ?agent ?event_type_short
