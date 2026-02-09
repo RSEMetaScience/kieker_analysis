@@ -9,7 +9,7 @@ import pandas as pd
 
 # kieker_client = SPARQLWrapper("http://localhost:3030/kieker/query")
 kieker_client = SPARQLWrapper("http://localhost:7200/repositories/kieker")
-keiker_ii_client = SPARQLWrapper("http://localhost:7200/repositories/kieker_ii")
+keiker_ii_client = SPARQLWrapper("http://localhost:7200/repositories/Kieker_ii")
 def run(query:Query|str, client:SPARQLWrapper=kieker_client, result_format=JSON) -> bytes | str | dict :
     client = client
     query_string = get_query(query) if isinstance(query, Query) else query
