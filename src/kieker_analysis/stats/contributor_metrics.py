@@ -1,6 +1,5 @@
 import pandas as pd
-from SPARQLWrapper import JSON
-
+from SPARQLWrapper import SPARQLWrapper
 
 from kieker_analysis.queries.queries import Query, get_parameterised_query, get_query
 from kieker_analysis.sparql.client import kieker_client, run, run_dataframe
@@ -38,17 +37,19 @@ def metric_factor_map()->dict:
     return mapping
 
 
-def results(query, metric)->tuple[str, dict]:
+def results(query, metric, client = None)->tuple[str, dict]:
     """ run a sparql query for one of the metrics and return a tuple with the metric name and result (a dict with the
     value for each agent)
     :param query: a sparql query
     :type query: str
     :param metric: the name of the metric
     :type metric: str
+    :param client: an instance of SPARQLWrapper
+    :type client: SPARQLWrapper
     :return: a tuple of the form (metric_name, metric_values)
     :rtype: tuple
     """
-    sparql_results = run(query)
+    sparql_results = run(query, client)
     result_set = {}
 
     for result in sparql_results["results"]["bindings"]:
@@ -59,10 +60,10 @@ def results(query, metric)->tuple[str, dict]:
     return metric, result_set
 
 
-def metrics_all()->dict:
+def metrics_all(client: SPARQLWrapper)->dict:
     r={}
     for i, query in query_strings.items():
-        t = results(query, i)
+        t = results(query, i,client)
         r[i] = t[1]
     return r
 
@@ -120,14 +121,14 @@ def get_user_activity(metrics:dict)->pd.DataFrame:
     user_activity = pd.DataFrame(data, columns=columns, index=short_users)
     return user_activity
 
-def get_all_user_metrics(users_to_drop:list[str]|None=None):
+def get_all_user_metrics(users_to_drop:list[str]|None=None, client=kieker_client):
     argz = []
     if users_to_drop:
         arg = ''",".join(f"{v}" for v in users_to_drop)
         argz.append(arg)
     q_string = get_query(Query.all_agent_activity)
     q = get_parameterised_query(q_string, argz)
-    df = run_dataframe(q)
+    df = run_dataframe(query=q, client=client)
     df_wide= (
             df.pivot_table(index="agent",
                             columns="event_type_short",
