@@ -1,0 +1,21 @@
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX github2prov: <http://purl.org/github2prov/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+
+SELECT  ?agent (count(distinct ?event) as ?count)
+WHERE {
+{
+    ?i a github2prov:pull.
+
+    ?iv prov:specializationOf ?i.
+        ?iv prov:wasGeneratedBy ?event.
+    
+    ?event rdf:type github2prov:closed.
+    ?event prov:qualifiedAssociation ?qassc.
+    ?qassc prov:agent ?agent.
+
+
+ }
+}
+Group By ?agent

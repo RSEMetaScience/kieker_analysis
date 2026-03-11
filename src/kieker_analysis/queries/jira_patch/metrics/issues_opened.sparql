@@ -1,0 +1,11 @@
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX jira2prov: <http://purl.org/jira2prov/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT ?agent (count(distinct ?i) as ?count)
+WHERE {
+    ?i a jira2prov:issue.
+    ?i prov:wasAttributedTo ?agent.
+}
+Group By ?agent

@@ -1,0 +1,12 @@
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX github2prov: <http://purl.org/github2prov/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT ?agent (count(distinct ?c) as ?count)
+WHERE {
+    ?c a github2prov:commit.
+    ?c prov:wasAssociatedWith ?agent.
+  
+}
+Group By ?agent

@@ -1,0 +1,35 @@
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX pulls_uri: <https://github.com/kieker-monitoring/kieker/pull/>
+PREFIX aprov: <http://purl.org/a-proc#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX github2prov: <http://purl.org/github2prov/>
+PREFIX github: <https://github.com/>
+
+select  ?agent (count (distinct ?versionEventType) as ?variety) 
+		(count (distinct ?OtherAgent) as ?interactivity)
+		
+WHERE {
+    values ?start{ "2000-01-01T00:00:01+00:00"^^xsd:dateTime }
+    BIND( ?start + "P100Y"^^xsd:yearMonthDuration AS ?end )
+    
+    ?mainEntity prov:wasGeneratedBy ?creation .  
+     ?entityVersion prov:specializationOf ?mainEntity ;
+        prov:wasGeneratedBy ?versioningEvent .
+    
+     ?versioningEvent prov:wasAssociatedWith ?agent ;
+           a ?versionEventType ;
+            prov:startedAtTime ?t.
+    
+    
+	?other_versions  prov:specializationOf ?mainEntity ;
+        prov:wasGeneratedBy ?OtherVersioningEvent .
+    
+	?OtherVersioningEvent prov:wasAssociatedWith ?OtherAgent;
+    	prov:startedAtTime ?tt.
+    
+        filter(?versionEventType != prov:Activity )
+        FILTER( ?t >= ?start && ?t < ?end )
+}
+group by (?agent)
