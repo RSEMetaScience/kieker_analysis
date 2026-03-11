@@ -5,7 +5,7 @@ from rdflib import Literal
 
 from kieker_analysis.graph.cyto_styles import usr_role_styler
 from kieker_analysis.graph.layouts.util import truncate_last_path, prettify_predicate
-from kieker_analysis.queries.queries import get_parameterised_query, Query
+from kieker_analysis.queries.queries import get_parameterised_query, QueryOld
 from kieker_analysis.sparql.client import run_graph
 import networkx as nx
 
@@ -33,19 +33,19 @@ def render():
 
 
 def issue_graph(issue:str):
-    query = get_parameterised_query(Query.named_issue, [f"<{issue}>"])
+    query = get_parameterised_query(QueryOld.named_issue, [f"<{issue}>"])
     rdf_graph=run_graph(query)
     return rdflib_to_networkx(rdf_graph, rdf_types=extra_types)
 
 def user_role_graph(user:str):
-    query=get_parameterised_query(Query.user_roles,[f"github:{user}"])
+    query=get_parameterised_query(QueryOld.user_roles, [f"github:{user}"])
     rdf_graph=run_graph(query)
     nx_graph = rdflib_to_networkx(rdf_graph, rdf_types=extra_types)
     add_formatting_styles(nx_graph,usr_role_styler)
     return nx_graph
 
 def timed_user_role_graph(user:str, step=2, iters=5):
-    query=get_parameterised_query(Query.timed_user_roles,[f"github:{user}"])
+    query=get_parameterised_query(QueryOld.timed_user_roles, [f"github:{user}"])
     increment=2
     for _ in range(iters):
         timed_query = get_parameterised_query(query,[f"{increment}"],place_holder="{~{DURATION}~}")

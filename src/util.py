@@ -2,7 +2,7 @@ import json
 import sqlite3
 from pathlib import Path
 from urllib.parse import urlparse
-from kieker_analysis.queries.queries import Query
+from kieker_analysis.queries.queries import QueryOld
 from kieker_analysis.sparql.client import run_dataframe
 from pandas import DataFrame
 
@@ -10,7 +10,7 @@ def list_events():
     """print a list of the events in the kieker data that change a PR or an issue
 
     """
-    df = run_dataframe(Query.issues_events)
+    df = run_dataframe(QueryOld.issues_events)
 
     df_piv = df.pivot_table(
         index="issue",

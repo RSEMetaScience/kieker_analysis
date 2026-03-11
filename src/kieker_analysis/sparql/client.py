@@ -4,20 +4,22 @@ from io import StringIO
 
 from rdflib import Graph
 
-from kieker_analysis.queries.queries import Query, get_query
+from kieker_analysis.queries.queries import QueryOld, Query, get_query
 import pandas as pd
 
 # kieker_client = SPARQLWrapper("http://localhost:3030/kieker/query")
 kieker_client = SPARQLWrapper("http://localhost:7200/repositories/kieker")
 keiker_ii_client = SPARQLWrapper("http://localhost:7200/repositories/Kieker_ii")
-def run(query:Query|str, client:SPARQLWrapper=kieker_client, result_format=JSON) -> bytes | str | dict :
+jira_patch_client = SPARQLWrapper("http://localhost:7200/repositories/kieker_patched")
+
+def run(query:  Query | str, client:SPARQLWrapper=kieker_client, result_format=JSON) -> bytes | str | dict :
     client = client
-    query_string = get_query(query) if isinstance(query, Query) else query
+    query_string = get_query(query) if isinstance(query, Query | QueryOld) else query
     client.setQuery(query_string)
     client.setReturnFormat(result_format)
     return client.query().convert()
 
-def run_dataframe(query:Query|str, client:SPARQLWrapper=kieker_client)->pd.DataFrame:
+def run_dataframe(query: QueryOld | Query | str, client:SPARQLWrapper=kieker_client)->pd.DataFrame:
     """run a select query and put the results in a dataframe"""
     result=run(query=query, client=client, result_format=CSV).decode('utf-8')
     df = pd.read_csv(StringIO(result))
