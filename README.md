@@ -21,5 +21,5 @@ You will also need Docker
 - A url with token will be printed in the logs if you want to integrate with your IDE  
 - **!!important!!**  
 If you make changes to the data, these will be lost on rebuild. If you want to persist or commit them you must replace the 
-file at ```./data/kieker.ttl```
+file at ```./data/kieker.trig```
 To export changes, you can run ```./export.sh```
