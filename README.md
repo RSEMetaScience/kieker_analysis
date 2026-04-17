@@ -8,7 +8,8 @@ You will also need Docker
 
 # Instructions
 ## first time setup or rebuild
-- clone the repo  
+- clone the repo
+- unpack the archive at './data/kieker.trig.zip'
 - open a terminal in the repo root  
 - run ```./bin/run.sh --build```  
 ## normal usage
