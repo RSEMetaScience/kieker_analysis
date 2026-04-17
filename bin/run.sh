@@ -8,7 +8,7 @@ for arg in "$@"; do
     --build) BUILD=1 ;;
     -h|--help)
       echo "Usage: bin/run [--build]"
-      echo "  --build   Recreate GraphDB repo from TTL (runs graphdb-init with FORCE_REINIT=1)"
+      echo "  --build   Recreate GraphDB repo from TriG (runs graphdb-init with FORCE_REINIT=1)"
       exit 0
       ;;
     *)

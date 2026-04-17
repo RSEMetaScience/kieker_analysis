@@ -4,7 +4,7 @@ set -eu
 REPO_ID="${REPO_ID:-kieker}"
 GRAPHDB_URL="${GRAPHDB_URL:-http://graphdb:7200}"
 CONFIG_PATH="${CONFIG_PATH:-/data/config.ttl}"
-DATA_PATH="${DATA_PATH:-/data/kieker.ttl}"
+DATA_PATH="${DATA_PATH:-/data/kieker.trig}"
 
 # if set to 1, delete + recreate repo and re-import TTL
 FORCE_REINIT="${FORCE_REINIT:-0}"
