@@ -41,15 +41,6 @@ def results(query, metric, client = None)->tuple[str, dict]:
 
 
 
-
-def _split_uri(uri:str)->str:
-    parts = uri.split("#")
-    if len(parts) == 2:
-        return parts[1]
-    else:
-        parts = uri.split("/")
-        return parts[-1]
-
 def short_name(uri: str) -> str:
     slug = _split_uri(uri)
     for uri_prefix, namespace in [
