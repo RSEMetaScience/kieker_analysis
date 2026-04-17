@@ -29,6 +29,9 @@ class QueryOld(Enum):
     all_agent_activity = "all_agent_activity.sparql"
 
 class Query(Enum):
+    jira_agent_refs_issues = "jira_Patch/metrics/agent_refs_issues.sparql"
+    jira_agent_mentions_others = "jira_patch/metrics/agent_mentions_others.sparql"
+    jira_agent_is_mentioned = "jira_patch/metrics/agent_is_mentioned.sparql"
     jira_issue_events = "jira_patch/metrics_all.sparql"
     contributor_activity = "jira_patch/contributor_activity.sparql"
     named_issue = "named_issue.sparql"

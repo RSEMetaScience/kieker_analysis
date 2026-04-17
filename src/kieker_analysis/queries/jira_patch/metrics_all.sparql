@@ -1,0 +1,15 @@
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX jira2prov: <http://purl.org/jira2prov/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+select  ?agent ?e_type (count( distinct ?issue_event) as ?count) WHERE 
+{
+    ?issue a jira2prov:issue.
+    ?issue_version prov:specializationOf ?issue.
+    ?issue_version prov:wasGeneratedBy ?issue_event.
+    ?issue_event prov:wasAssociatedWith ?agent.
+    ?issue_event a ?e_type.   
+    filter(?e_type != prov:Activity)
+    }
+group by ?agent ?e_type 

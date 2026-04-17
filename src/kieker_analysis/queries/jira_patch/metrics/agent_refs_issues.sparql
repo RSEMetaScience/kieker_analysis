@@ -1,0 +1,23 @@
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX github2prov: <http://purl.org/github2prov/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX jira2prov: <http://purl.org/jira2prov/>
+
+# number of times each agent references an issue in issue descriptons or comments
+SELECT ?agent (sum(?refs) as ?refs_issues)
+
+WHERE {
+ 	{
+    ?c rdf:type jira2prov:comment.
+    ?c prov:wasAssociatedWith ?agent.
+    ?c jira2prov:refs ?refs.
+     }
+    union
+     {
+    ?c rdf:type jira2prov:issue.
+    ?c prov:wasAttributedTo ?agent.
+    ?c jira2prov:refs ?refs.
+     }
+}
+Group By ?agent
