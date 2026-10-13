@@ -25,7 +25,7 @@ services:
       - GRAPHDB_URL=http://graphdb:7200
       - REPO_ID=kieker
       - CONFIG_PATH=/data/config.ttl
-      - DATA_PATH=/data/kieker.ttl
+      - DATA_PATH=/data/kieker_dump.ttl
     volumes:
       - ./bin/gdb_init.sh:/init/gdb_init.sh:ro
       - ./data:/data:ro
