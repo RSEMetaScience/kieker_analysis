@@ -1,3 +1,10 @@
+# data
+data/kieker_dump.ttl
+data/*.trig
+data/*.trig.zip
+data/kieker_old.ttl
+
+
 # --- GraphDB runtime (DO NOT COMMIT) ---
 graphdb/home/
 graphdb/import/
