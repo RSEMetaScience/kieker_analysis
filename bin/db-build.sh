@@ -6,4 +6,4 @@ cd "$(dirname "$0")/.."
 docker compose up -d graphdb
 
 # Force re-init from committed turtle/config
-FORCE_REINIT=1 docker compose up -d graphdb-init
+docker compose run --rm -e FORCE_REINIT=1 graphdb-init

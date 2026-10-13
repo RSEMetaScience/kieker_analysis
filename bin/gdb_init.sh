@@ -38,6 +38,7 @@ if [ "${FORCE_REINIT}" != "1" ]; then
 fi
 # if we made it here then we are deleting and rebuilding the repository using our saved turtle data and config
 echo "Recreating repository (${REPO_ID})..."
+[ -f "${DATA_PATH}" ] || { echo "Data file ${DATA_PATH} not found; refusing to rebuild." >&2; exit 1; }
 curl -fsS -X DELETE "${GRAPHDB_URL}/rest/repositories/${REPO_ID}" >/dev/null || true
 
 curl -fsS -X POST "${GRAPHDB_URL}/rest/repositories" \

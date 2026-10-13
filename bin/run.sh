@@ -47,7 +47,7 @@ start_graphdb_if_needed() {
 
 rebuild_db() {
   echo "Rebuilding GraphDB repo from TTL..."
-  FORCE_REINIT=1 docker compose up -d graphdb-init
+  docker compose run --rm -e FORCE_REINIT=1 graphdb-init
   docker compose logs -n 200 graphdb-init
 }
 
