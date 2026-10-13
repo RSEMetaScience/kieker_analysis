@@ -5,7 +5,7 @@ data/*.trig.zip
 data/kieker_old.ttl
 
 
-# --- GraphDB runtime (DO NOT COMMIT) ---
+# --- GraphDB runtime (DO NOT COMMIT!!) ---
 graphdb/home/
 graphdb/import/
 graphdb/**/*.log
@@ -38,7 +38,8 @@ build/
 .vscode/
 
 # --- extra pycharm gubbins ---
-# --- JetBrains / PyCharm ---
+*-pycharm-support-libs/
+*-pycharm-support-libs.zip
 .idea/
 *.iml
 *.ipr
