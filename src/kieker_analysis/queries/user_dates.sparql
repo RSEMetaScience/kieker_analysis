@@ -1,0 +1,16 @@
+PREFIX users: <https://github.com/>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX github2prov: <http://purl.org/github2prov/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT ?user (MIN(?start) AS ?earliestStart) (MAX(?end) AS ?latestEnd) (COUNT(?activity) AS ?activityCount)
+WHERE
+{
+    ?activity prov:wasAssociatedWith ?user;
+              prov:startedAtTime ?start;
+              prov:endedAtTime ?end.
+
+    FILTER NOT EXISTS { ?activity rdf:type github2prov:starred }
+}
+GROUP BY ?user
+HAVING (COUNT(?activity) >= 10)
