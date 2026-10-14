@@ -9,8 +9,8 @@ import pandas as pd
 
 # kieker_client = SPARQLWrapper("http://localhost:3030/kieker/query")
 kieker_client = SPARQLWrapper("http://localhost:7200/repositories/kieker")
-keiker_ii_client = SPARQLWrapper("http://localhost:7200/repositories/Kieker_ii")
-jira_patch_client = SPARQLWrapper("http://localhost:7200/repositories/kieker_patched")
+# keiker_ii_client = SPARQLWrapper("http://localhost:7200/repositories/Kieker_ii")
+# jira_patch_client = SPARQLWrapper("http://localhost:7200/repositories/kieker_patched")
 
 def run(query:  Query | str, client:SPARQLWrapper=kieker_client, result_format=JSON) -> bytes | str | dict :
     client = client
