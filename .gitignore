@@ -3,7 +3,8 @@ data/kieker_dump.ttl
 data/*.trig
 data/*.trig.zip
 data/kieker_old.ttl
-
+# for de-anonymisation
+data/agent_pseudonyms.csv
 
 # --- GraphDB runtime (DO NOT COMMIT!!) ---
 graphdb/home/

@@ -8,6 +8,8 @@ import pandas as pd
 from SPARQLWrapper import SPARQLWrapper
 
 from kieker_analysis.sparql.client import kieker_client
+from kieker_analysis.stats.pseudo import pseudonymise
+from kieker_analysis.stats.agent_cleanup import clean_agents
 from kieker_analysis.stats.contributor_metrics import (
     get_issue_event_counts,
     get_mentions_and_refs,
@@ -57,7 +59,8 @@ def build_user_activity(
 
     mentions_refs = get_mentions_and_refs(client)
 
-    merged = merge_activity_tables(jira_events, github_activity, mentions_refs)
+    # identity clean-up and anonymisation happens here, before saving, so the notebook never sees real logins
+    merged = pseudonymise(clean_agents(merge_activity_tables(jira_events, github_activity, mentions_refs)))
 
     if output is not None:
         output = Path(output)
